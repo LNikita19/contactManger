@@ -1,0 +1,84 @@
+{
+    "contacts": [
+        {
+            "id": 1,
+            "name": "John Doe",
+            "email": "john@example.com",
+            "phone": "123-456-7890",
+            "address": "123 Main St, New York, NY",
+            "favourite": true
+        },
+        {
+            "id": 2,
+            "name": "Jane Smith",
+            "email": "jane@example.com",
+            "phone": "234-567-8901",
+            "address": "456 Oak Ave, Los Angeles, CA",
+            "favourite": false
+        },
+        {
+            "id": 3,
+            "name": "Robert Johnson",
+            "email": "robert@example.com",
+            "phone": "345-678-9012",
+            "address": "789 Pine Rd, Chicago, IL",
+            "favourite": true
+        },
+        {
+            "id": 4,
+            "name": "Emily Davis",
+            "email": "emily@example.com",
+            "phone": "456-789-0123",
+            "address": "321 Elm St, Houston, TX",
+            "favourite": false
+        },
+        {
+            "id": 5,
+            "name": "Michael Wilson",
+            "email": "michael@example.com",
+            "phone": "567-890-1234",
+            "address": "654 Maple Dr, Phoenix, AZ",
+            "favourite": true
+        },
+        {
+            "id": 6,
+            "name": "Sarah Brown",
+            "email": "sarah@example.com",
+            "phone": "678-901-2345",
+            "address": "987 Cedar Ln, Philadelphia, PA",
+            "favourite": false
+        },
+        {
+            "id": 7,
+            "name": "David Taylor",
+            "email": "david@example.com",
+            "phone": "789-012-3456",
+            "address": "159 Birch Blvd, San Antonio, TX",
+            "favourite": true
+        },
+        {
+            "id": 8,
+            "name": "Jessica Martinez",
+            "email": "jessica@example.com",
+            "phone": "890-123-4567",
+            "address": "753 Walnut Way, San Diego, CA",
+            "favourite": false
+        },
+        {
+            "id": 9,
+            "name": "Thomas Anderson",
+            "email": "thomas@example.com",
+            "phone": "901-234-5678",
+            "address": "426 Spruce Ct, Dallas, TX",
+            "favourite": true
+        },
+        {
+            "id": 10,
+            "name": "Lisa Thomas",
+            "email": "lisa@example.com",
+            "phone": "012-345-6789",
+            "address": "864 Oakwood Ave, San Jose, CA",
+            "favourite": false
+        }
+    ]
+}
