@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3001'; // Remove /api since json-server serves from root
+const API_URL = 'http://localhost:3001';
 
 export const getContacts = async ({ page = 1, limit = 10, search = '' }) => {
   const url = new URL(`${API_URL}/contacts`);
@@ -7,9 +7,12 @@ export const getContacts = async ({ page = 1, limit = 10, search = '' }) => {
   if (search) url.searchParams.append('q', encodeURIComponent(search));
 
   const response = await fetch(url);
-  if (!response.ok) throw new Error('Failed to fetch contacts');
+  if (!response.ok) {
+    const error = new Error('Failed to fetch contacts');
+    error.status = response.status;
+    throw error;
+  }
 
-  // Get total count from headers for pagination
   const total = response.headers.get('X-Total-Count');
   const data = await response.json();
 
@@ -26,9 +29,16 @@ export const createContact = async (contactData) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(contactData),
   });
-  if (!response.ok) throw new Error('Failed to create contact');
+
+  if (!response.ok) {
+    const error = new Error('Failed to create contact');
+    error.status = response.status;
+    throw error;
+  }
+
   return response.json();
 };
+
 
 export const updateContact = async ({ id, ...contactData }) => {
   const response = await fetch(`${API_URL}/contacts/${id}`, {

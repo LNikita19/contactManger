@@ -1,4 +1,5 @@
-// server.js
+// npx json-server --watch db.json --port 3001
+// server.js  
 const jsonServer = require('json-server');
 const server = jsonServer.create();
 const router = jsonServer.router('db.json');

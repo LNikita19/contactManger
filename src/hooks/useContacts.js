@@ -10,7 +10,6 @@ export const useContacts = (page, limit, search) => {
     });
 };
 
-// Updated mutation hooks for React Query v5
 export const useCreateContact = () => {
     const queryClient = useQueryClient();
     return useMutation({
@@ -18,6 +17,10 @@ export const useCreateContact = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['contacts'] });
         },
+        onError: (error) => {
+            console.error('Error creating contact:', error);
+            throw error; // Re-throw to handle in component
+        }
     });
 };
 
@@ -28,6 +31,10 @@ export const useUpdateContact = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['contacts'] });
         },
+        onError: (error) => {
+            console.error('Error updating contact:', error);
+            throw error;
+        }
     });
 };
 
@@ -38,5 +45,9 @@ export const useDeleteContact = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['contacts'] });
         },
+        onError: (error) => {
+            console.error('Error deleting contact:', error);
+            throw error;
+        }
     });
 };
