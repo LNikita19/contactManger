@@ -20,7 +20,7 @@ const SearchBar = () => {
       <TextField
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        placeholder="Search contacts by name..."
+        placeholder="Search contacts..."
         InputProps={{
           startAdornment: <SearchIcon sx={{ color: 'action.active', mr: 1 }} />,
         }}

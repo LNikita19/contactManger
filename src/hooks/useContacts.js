@@ -8,14 +8,12 @@ import {
     toggleFavorite
 } from '../api/contacts';
 
-export const useContacts = (page, limit, search) => {
+export const useContacts = (page, limit, searchQuery) => {
     return useQuery({
-        queryKey: ['contacts', { page, limit, search }],
-        queryFn: () => getContacts({ page, limit, search }),
-        keepPreviousData: true,
+        queryKey: ['contacts', page, limit, searchQuery],
+        queryFn: () => getContacts({ page, limit, search: searchQuery })
     });
 };
-
 export const useCreateContact = () => {
     const queryClient = useQueryClient();
     return useMutation({

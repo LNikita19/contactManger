@@ -1,12 +1,7 @@
 // src/App.jsx
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import useStore from './store/useStore';
 import { useContacts } from './hooks/useContacts';
 import ContactCard from './components/ContactCard';
@@ -16,70 +11,51 @@ import Pagination from './components/Pagination';
 import LoadingSpinner from './components/LoadingSpinner';
 import AddContactButton from './components/AddContactButton';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
-  },
-});
-
 const queryClient = new QueryClient();
 
-function App() {
-  const [page, setPage] = useState(1);
+function AppContent() {
+  const [page, setPage] = useState();
   const limit = 10;
   const { searchQuery, showFavoritesOnly } = useStore();
-  const { data, isLoading, isError, error } = useContacts(page, limit, searchQuery);
 
+  const { data, isLoading, isError, error } = useContacts(page, limit);
+
+  // Reset to page 1 whenever search changes
   useEffect(() => {
     setPage(1);
   }, [searchQuery]);
 
   if (isLoading) return <LoadingSpinner />;
-  if (isError) return <div>Error: {error.message}</div>;
+  if (isError) return <div className="text-red-500 p-4">Error: {error.message}</div>;
 
-  // Apply both search (handled by API) and favorites filter
-  const filteredContacts = showFavoritesOnly
-    ? data?.contacts?.filter(contact => contact.favourite) || []
-    : data?.contacts || [];
+  // Apply search and favorites filters
+  const filteredContacts = (data?.contacts || []).filter((contact) => {
+    const matchesSearch = contact.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFavorite = !showFavoritesOnly || contact.favourite;
+    return matchesSearch && matchesFavorite;
+  });
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
-          <Typography variant="h4" component="h1" color="primary">
-            Contact Manager
-          </Typography>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl font-bold text-indigo-800">Contact Manager</h1>
           <AddContactButton />
-        </Box>
+        </div>
 
-        <Box sx={{ bgcolor: 'background.paper', p: 4, borderRadius: 2, boxShadow: 1 }}>
+        <div className="bg-white rounded-xl shadow-lg p-6">
           <SearchBar />
 
-          <Box sx={{
-            mt: 4,
-            display: 'grid',
-            gap: 3,
-            gridTemplateColumns: {
-              xs: '1fr',
-              sm: 'repeat(2, 1fr)',
-              md: 'repeat(3, 1fr)'
-            }
-          }}>
-            {filteredContacts?.map(contact => (
+          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredContacts.map((contact) => (
               <ContactCard key={contact.id} contact={contact} />
             ))}
-          </Box>
+          </div>
 
           {filteredContacts.length === 0 && (
-            <Box sx={{ textAlign: 'center', py: 8, color: 'text.secondary' }}>
+            <div className="text-center py-12 text-gray-500">
               No contacts found. Try adjusting your search or add a new contact.
-            </Box>
+            </div>
           )}
 
           <Pagination
@@ -87,12 +63,20 @@ function App() {
             totalPages={Math.ceil(data?.total / limit)}
             onPageChange={setPage}
           />
-        </Box>
-      </Container>
+        </div>
+      </div>
 
       <ContactModal />
       <ReactQueryDevtools initialIsOpen={false} />
-    </ThemeProvider>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AppContent />
+    </QueryClientProvider>
   );
 }
 
