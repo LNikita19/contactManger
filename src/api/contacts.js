@@ -5,21 +5,21 @@ export const getContacts = async ({ page = 1, limit = 10, search = '' }) => {
   const url = new URL(`${API_URL}/contacts`);
   url.searchParams.append('_page', page);
   url.searchParams.append('_limit', limit);
-  if (search) url.searchParams.append('q', encodeURIComponent(search));
+
+  // Use name_like instead of q for name-only search
+  if (search) {
+    url.searchParams.append('name_like', search);
+  }
 
   const response = await fetch(url);
-  if (!response.ok) {
-    const error = new Error('Failed to fetch contacts');
-    error.status = response.status;
-    throw error;
-  }
+  if (!response.ok) throw new Error('Failed to fetch contacts');
 
   const total = response.headers.get('X-Total-Count');
   const data = await response.json();
 
   return {
     contacts: data,
-    total: parseInt(total) || data.length
+    total: parseInt(total) || data.length,
   };
 };
 
