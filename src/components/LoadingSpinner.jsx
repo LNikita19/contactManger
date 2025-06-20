@@ -1,9 +1,10 @@
-// src/components/LoadingSpinner.jsx
+import { CircularProgress, Box } from '@mui/material';
+
 const LoadingSpinner = () => {
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
-    </div>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <CircularProgress size={60} />
+    </Box>
   );
 };
 

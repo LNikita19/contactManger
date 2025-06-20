@@ -1,9 +1,20 @@
-// src/components/ContactModal.jsx
 import { useState } from 'react';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Typography,
+  Box,
+  IconButton,
+  Divider,
+  CircularProgress
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import useStore from '../store/useStore';
 import { useContacts, useCreateContact, useUpdateContact, useDeleteContact } from '../hooks/useContacts';
 import ContactForm from './ContactForm';
-import ConfirmationDialog from './ConfirmationDialog'; // We'll create this new component
 
 const ContactModal = () => {
   const { selectedContactId, setSelectedContactId } = useStore();
@@ -12,13 +23,13 @@ const ContactModal = () => {
   const updateContact = useUpdateContact();
   const deleteContact = useDeleteContact();
 
-  const [isEditing, setIsEditing] = useState(selectedContactId === 'new');
+  const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const isNewContact = selectedContactId === 'new';
   const contact = isNewContact
     ? { name: '', email: '', phone: '', address: '', favourite: false }
-    : contacts?.contacts.find(c => c.id === selectedContactId);
+    : contacts?.contacts?.find(c => c.id === selectedContactId);
 
   const handleClose = () => {
     setSelectedContactId(null);
@@ -39,14 +50,12 @@ const ContactModal = () => {
     }
   };
 
-  const handleDeleteConfirm = async () => {
+  const handleDelete = async () => {
     try {
       await deleteContact.mutateAsync(contact.id);
       handleClose();
     } catch (error) {
       console.error('Delete failed:', error);
-    } finally {
-      setIsDeleting(false);
     }
   };
 
@@ -54,90 +63,79 @@ const ContactModal = () => {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-          <div className="p-6">
-            <div className="flex justify-between items-start">
-              <h3 className="text-xl font-semibold text-gray-900">
-                {isNewContact ? 'Add New Contact' : isEditing ? 'Edit Contact' : 'Contact Details'}
-              </h3>
-              <button
-                onClick={handleClose}
-                className="text-gray-400 hover:text-gray-500 transition-colors"
-              >
-                <span className="sr-only">Close</span>
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
+      <Dialog open={!!selectedContactId} onClose={handleClose} maxWidth="sm" fullWidth>
+        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          {isNewContact ? 'Add New Contact' : isEditing ? 'Edit Contact' : 'Contact Details'}
+          <IconButton onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
 
-            {isEditing || isNewContact ? (
-              <ContactForm
-                defaultValues={contact}
-                onSubmit={handleSubmit}
-                onCancel={handleClose}
-                isSubmitting={isNewContact ? createContact.isLoading : updateContact.isLoading}
-              />
-            ) : (
-              <div className="mt-6 space-y-4">
-                <div className="flex items-center justify-between">
-                  <h4 className="text-lg font-semibold">{contact.name}</h4>
-                  {contact.favourite && (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
-                      ★ Favourite
-                    </span>
-                  )}
-                </div>
+        <DialogContent dividers>
+          {isEditing || isNewContact ? (
+            <ContactForm
+              defaultValues={contact}
+              onSubmit={handleSubmit}
+              onCancel={handleClose}
+              isSubmitting={isNewContact ? createContact.isLoading : updateContact.isLoading}
+            />
+          ) : (
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="h6" gutterBottom>{contact.name}</Typography>
 
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-sm text-gray-500">Email</p>
-                    <p className="text-sm font-medium">{contact.email}</p>
-                  </div>
-                  {contact.phone && (
-                    <div>
-                      <p className="text-sm text-gray-500">Phone</p>
-                      <p className="text-sm font-medium">{contact.phone}</p>
-                    </div>
-                  )}
-                  {contact.address && (
-                    <div>
-                      <p className="text-sm text-gray-500">Address</p>
-                      <p className="text-sm font-medium">{contact.address}</p>
-                    </div>
-                  )}
-                </div>
+              <Divider sx={{ my: 2 }} />
 
-                <div className="flex justify-end space-x-3 pt-6">
-                  <button
-                    onClick={() => setIsEditing(true)}
-                    className="px-3 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => setIsDeleting(true)}
-                    className="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" color="text.secondary">Email</Typography>
+                <Typography>{contact.email}</Typography>
+              </Box>
 
-      {/* Delete Confirmation Dialog */}
-      {isDeleting && (
-        <ConfirmationDialog
-          title="Delete Contact"
-          message={`Are you sure you want to delete ${contact.name}?`}
-          onConfirm={handleDeleteConfirm}
-          onCancel={() => setIsDeleting(false)}
-        />
-      )}
+              {contact.phone && (
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="subtitle2" color="text.secondary">Phone</Typography>
+                  <Typography>{contact.phone}</Typography>
+                </Box>
+              )}
+
+              {contact.address && (
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="subtitle2" color="text.secondary">Address</Typography>
+                  <Typography>{contact.address}</Typography>
+                </Box>
+              )}
+            </Box>
+          )}
+        </DialogContent>
+
+        {!isEditing && !isNewContact && (
+          <DialogActions>
+            <Button onClick={() => setIsEditing(true)} color="primary">
+              Edit
+            </Button>
+            <Button onClick={() => setIsDeleting(true)} color="error">
+              Delete
+            </Button>
+          </DialogActions>
+        )}
+      </Dialog>
+
+      <Dialog open={isDeleting} onClose={() => setIsDeleting(false)}>
+        <DialogTitle>Delete Contact</DialogTitle>
+        <DialogContent>
+          <Typography>Are you sure you want to delete {contact.name}?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setIsDeleting(false)}>Cancel</Button>
+          <Button
+            onClick={handleDelete}
+            color="error"
+            disabled={deleteContact.isLoading}
+            startIcon={deleteContact.isLoading ? <CircularProgress size={20} /> : null}
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
