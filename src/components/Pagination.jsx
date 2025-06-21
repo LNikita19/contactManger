@@ -1,4 +1,4 @@
-import { Button, Box, Pagination as MuiPagination } from '@mui/material';
+import { Box, Pagination as MuiPagination } from '@mui/material';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   return (

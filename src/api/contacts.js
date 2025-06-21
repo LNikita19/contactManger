@@ -6,7 +6,6 @@ export const getContacts = async ({ page = 1, limit = 10, search = '' }) => {
   url.searchParams.append('_page', page);
   url.searchParams.append('_limit', limit);
 
-  // Use name_like instead of q for name-only search
   if (search) {
     url.searchParams.append('name_like', search);
   }
@@ -14,14 +13,15 @@ export const getContacts = async ({ page = 1, limit = 10, search = '' }) => {
   const response = await fetch(url);
   if (!response.ok) throw new Error('Failed to fetch contacts');
 
-  const total = response.headers.get('X-Total-Count');
+  const total = response.headers.get('X-Total-Count');  // 👈 CRITICAL for pagination
   const data = await response.json();
 
   return {
     contacts: data,
-    total: parseInt(total) || data.length,
+    total: parseInt(total) || data.length, // fallback in case header missing
   };
 };
+
 
 // Update other methods similarly (remove /api from URLs)
 export const createContact = async (contactData) => {

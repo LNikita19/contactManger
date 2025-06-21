@@ -16,15 +16,21 @@ const SearchBar = () => {
   }, [debouncedSearchTerm, setSearchQuery]);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, mb: 3 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 2,
+        width: '100%',
+      }}
+    >
       <TextField
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        placeholder="Search contacts..."
-        InputProps={{
-          startAdornment: <SearchIcon sx={{ color: 'action.active', mr: 1 }} />,
-        }}
-        fullWidth
+        variant="outlined"
+        placeholder="Search contact"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        size="small"
+        sx={{ flex: 1 }} // share space with checkbox
       />
 
       <FormControlLabel
@@ -35,7 +41,8 @@ const SearchBar = () => {
             color="primary"
           />
         }
-        label="Show favorites only"
+        label="Show Favourites"
+        sx={{ whiteSpace: 'nowrap', mb: 0 }}
       />
     </Box>
   );

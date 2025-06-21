@@ -63,6 +63,7 @@ const ContactModal = () => {
 
   return (
     <>
+      {/* Contact Dialog */}
       <Dialog open={!!selectedContactId} onClose={handleClose} maxWidth="sm" fullWidth>
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           {isNewContact ? 'Add New Contact' : isEditing ? 'Edit Contact' : 'Contact Details'}
@@ -71,7 +72,7 @@ const ContactModal = () => {
           </IconButton>
         </DialogTitle>
 
-        <DialogContent dividers>
+        <DialogContent dividers sx={{ px: 4, py: 3 }}>
           {isEditing || isNewContact ? (
             <ContactForm
               defaultValues={contact}
@@ -80,7 +81,7 @@ const ContactModal = () => {
               isSubmitting={isNewContact ? createContact.isLoading : updateContact.isLoading}
             />
           ) : (
-            <Box sx={{ mt: 2 }}>
+            <Box sx={{ mt: 1 }}>
               <Typography variant="h6" gutterBottom>{contact.name}</Typography>
 
               <Divider sx={{ my: 2 }} />
@@ -108,29 +109,58 @@ const ContactModal = () => {
         </DialogContent>
 
         {!isEditing && !isNewContact && (
-          <DialogActions>
-            <Button onClick={() => setIsEditing(true)} color="primary">
+          <DialogActions sx={{ px: 4, pb: 3 }}>
+            <Button
+              onClick={() => setIsEditing(true)}
+              variant="contained"
+              color="primary"
+              sx={{
+                backgroundColor: '#1e88e5',
+                '&:hover': { backgroundColor: '#1565c0' }
+              }}
+            >
               Edit
             </Button>
-            <Button onClick={() => setIsDeleting(true)} color="error">
+            <Button
+              onClick={() => setIsDeleting(true)}
+              variant="outlined"
+              color="error"
+              sx={{
+                borderColor: '#f44336',
+                color: '#f44336',
+                '&:hover': {
+                  backgroundColor: '#ffe5e5',
+                  borderColor: '#d32f2f',
+                  color: '#d32f2f',
+                }
+              }}
+            >
               Delete
             </Button>
           </DialogActions>
         )}
       </Dialog>
 
+      {/* Delete Confirmation Dialog */}
       <Dialog open={isDeleting} onClose={() => setIsDeleting(false)}>
         <DialogTitle>Delete Contact</DialogTitle>
-        <DialogContent>
-          <Typography>Are you sure you want to delete {contact.name}?</Typography>
+        <DialogContent sx={{ px: 4, py: 2 }}>
+          <Typography>
+            Are you sure you want to delete <strong>{contact.name}</strong>?
+          </Typography>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ px: 4, pb: 2 }}>
           <Button onClick={() => setIsDeleting(false)}>Cancel</Button>
           <Button
             onClick={handleDelete}
             color="error"
+            variant="contained"
             disabled={deleteContact.isLoading}
             startIcon={deleteContact.isLoading ? <CircularProgress size={20} /> : null}
+            sx={{
+              backgroundColor: '#f44336',
+              '&:hover': { backgroundColor: '#d32f2f' }
+            }}
           >
             Delete
           </Button>

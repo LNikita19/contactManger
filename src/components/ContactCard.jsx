@@ -1,7 +1,8 @@
 import { Card, CardContent, Avatar, Typography, IconButton, Box } from '@mui/material';
-import { Favorite, FavoriteBorder } from '@mui/icons-material';
+import { Star, StarBorder } from '@mui/icons-material';
 import useStore from '../store/useStore';
 import { useToggleFavorite } from '../hooks/useContacts';
+import { Checkbox } from '@mui/material';
 
 const ContactCard = ({ contact }) => {
   const { setSelectedContactId } = useStore();
@@ -17,20 +18,17 @@ const ContactCard = ({ contact }) => {
       sx={{ cursor: 'pointer', '&:hover': { boxShadow: 3 } }}
       onClick={() => setSelectedContactId(contact.id)}
     >
-      <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
+      <CardContent sx={{ display: 'flex', alignItems: 'center', px: 2, py: 1 }}>
+        <Checkbox sx={{ mr: 2 }} />
         <Avatar sx={{ bgcolor: 'primary.main', mr: 2 }}>
           {contact.name.charAt(0).toUpperCase()}
         </Avatar>
         <Box sx={{ flexGrow: 1 }}>
-          <Typography variant="h6">{contact.name}</Typography>
+          <Typography variant="subtitle1">{contact.name}</Typography>
           <Typography variant="body2" color="text.secondary">{contact.email}</Typography>
         </Box>
         <IconButton onClick={handleFavoriteClick}>
-          {contact.favourite ? (
-            <Favorite color="error" />
-          ) : (
-            <FavoriteBorder />
-          )}
+          {contact.favourite ? <Star sx={{ color: '#fdd835' }} /> : <StarBorder />}
         </IconButton>
       </CardContent>
     </Card>
