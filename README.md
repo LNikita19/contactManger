@@ -1,70 +1,72 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+npx create react app used material ui tanstact and zustand for store managment.
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+- **Contact Management**: Add, edit, view, and delete contacts
+- **Search functionality**: Real-time search with server-side filtering
+- **Favorites System**: Mark contacts as favorites and filter by favorites
+- **Responsive Design**: Works perfectly on desktop and mobile
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Modern UI**: Clean, professional interface with Material-UI
+- **State Management**: Efficient state management with Zustand and TanStack Query
+- **Pagination**: Smooth pagination for large contact lists
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## Techstack which is used
+-**React 18** - Version 18 used of react
+--**MUI Library (v5.x)** -for components across app. 
+--**• Zustand (v5.x)**  - for client-side UI state 
+--**TanStack React Query (v5.x)** - for server-side state management (fetching, mutations, cache) link
+--**React Hook Form (v7.x)** - for form handling and validation link
+   
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## ⚡ Quick Start
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Follow these steps to run both the mock API server and the React app:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 1. Install dependencies
+```bash
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 2. Start the Mock API Server (json-server)
+In a terminal, run:
+```bash
+npx json-server --watch db.json --port 3001 
+```
+- This starts the backend at [http://localhost:3001](http://localhost:3001).
+- API endpoints will be available under `/api` (e.g., `http://localhost:3001/contacts`).
 
-### `npm run eject`
+### 3. Start the React Development Server
+In a **separate terminal**, run:
+```bash
+npm run start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🎯 Usage
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Adding Contacts
+1. Click the "Add Contact" button
+2. Fill in the contact information
+3. Optionally mark as favorite
+4. Click "Create" to save
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Editing Contacts
+1. Click on any contact card to open details
+2. Click the "Edit" button in the modal
+3. Update the information
+4. Click "Update" to save changes
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Search and Filter
+- Use the search bar to find contacts by name
+- Toggle "Show Favourites Only" to filter favorites
+- Search is performed server-side with real-time results
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Managing Favorites
+- Click the heart icon on any contact card or in the detail modal
+- Use the "Show Favourites Only" toggle to filter favorites
