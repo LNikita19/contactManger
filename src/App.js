@@ -1,4 +1,3 @@
-// src/App.jsx
 import { useState, useEffect, useMemo } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -24,7 +23,7 @@ const queryClient = new QueryClient();
 
 function AppContent() {
   const [page, setPage] = useState(1);
-  const [mode, setMode] = useState('light');
+  const [mode, setMode] = useState('light'); // light/dark toggle
   const limit = 10;
   const { searchQuery, showFavoritesOnly } = useStore();
 
@@ -33,6 +32,10 @@ function AppContent() {
   useEffect(() => {
     setPage(1);
   }, [searchQuery]);
+
+  const toggleColorMode = () => {
+    setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
 
   const theme = useMemo(
     () =>
@@ -46,7 +49,7 @@ function AppContent() {
             main: '#fdd835',
           },
           background: {
-            default: mode === 'light' ? '#f1f5f9' : '#121212',
+            default: mode === 'light' ? '#ffffff' : '#121212',
             paper: mode === 'light' ? '#ffffff' : '#1e1e1e',
           },
         },
@@ -54,15 +57,9 @@ function AppContent() {
     [mode]
   );
 
-  const toggleColorMode = () => setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
-
   if (isLoading) return <LoadingSpinner />;
   if (isError) return <div className="text-red-500 p-4">Error: {error.message}</div>;
 
-  // ✅ Add this log right after data is confirmed available
-  console.log("Received contacts:", data.contacts.length, "Total:", data.total, "Current page:", page);
-
-  // Apply search and favorites filters
   const filteredContacts = (data?.contacts || []).filter((contact) => {
     const matchesSearch = contact.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesFavorite = !showFavoritesOnly || contact.favourite;
@@ -72,24 +69,30 @@ function AppContent() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth="sm" sx={{ py: 4 }}>
-        <Paper elevation={4} sx={{ borderRadius: 4, p: 3 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography variant="h5" fontWeight="bold" gutterBottom color="primary">
-              Contact Manager
-            </Typography>
-            <IconButton onClick={toggleColorMode} color="inherit">
-              {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+      <Container maxWidth="xs" sx={{ py: 4 }}>
+        <Paper
+          elevation={4}
+          sx={{
+            borderRadius: 4,
+            p: 3,
+            backgroundColor: mode === 'light' ? '#2A3342' : '#1e1e1e',
+            color: 'white',
+          }}
+        >
+          <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between' }}>
+            <SearchBar />
+            <IconButton onClick={toggleColorMode} color="inherit" size="small">
+              {mode === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
             </IconButton>
           </Box>
 
-          <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <SearchBar />
-          </Box>
+          <Typography variant="h5" fontWeight="bold" gutterBottom color="#fff">
+            Names
+          </Typography>
 
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
             {filteredContacts.map((contact) => (
-              <ContactCard key={contact.id} contact={contact} />
+              <ContactCard key={contact.id} contact={contact} iconImage />
             ))}
           </Box>
 
@@ -106,7 +109,20 @@ function AppContent() {
           />
 
           <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
-            <AddContactButton />
+            <AddContactButton
+              fullWidth
+              variant="contained"
+              sx={{
+                backgroundColor: '#22C55E',
+                color: '#ffffff',
+                fontWeight: 'bold',
+                borderRadius: 2,
+                px: 4,
+                py: 1.5,
+              }}
+            >
+              + Add to Contact
+            </AddContactButton>
           </Box>
         </Paper>
 
@@ -116,6 +132,7 @@ function AppContent() {
     </ThemeProvider>
   );
 }
+
 
 function App() {
   return (

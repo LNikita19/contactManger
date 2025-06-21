@@ -7,9 +7,23 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         count={totalPages}
         page={currentPage}
         onChange={(_, page) => onPageChange(page)}
-        color="primary"
         showFirstButton
         showLastButton
+        sx={{
+          '& .MuiPaginationItem-root': {
+            color: '#ffffff', 
+            backgroundColor: '#22C55E', 
+            borderRadius: '8px',
+            fontWeight: 'bold',
+            '&:hover': {
+              backgroundColor: '#16a34a',
+            },
+          },
+          '& .Mui-selected': {
+            backgroundColor: '#22C55E !important',
+            color: '#ffffff',
+          },
+        }}
       />
     </Box>
   );

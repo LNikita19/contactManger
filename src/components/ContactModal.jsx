@@ -66,7 +66,20 @@ const ContactModal = () => {
   return (
     <>
       {/* Contact Dialog */}
-      <Dialog open={!!selectedContactId} onClose={handleClose} maxWidth="sm" fullWidth>
+      <Dialog
+        open={!!selectedContactId}
+        onClose={handleClose}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 3,
+            boxShadow: 8, // lg shadow
+            border: '1px solid #e2e8f0', // subtle border
+            backgroundColor: '#ffffff', // white background
+          },
+        }}
+      >
         <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           {isNewContact ? 'Add New Contact' : isEditing ? 'Edit Contact' : 'Contact Details'}
           <IconButton onClick={handleClose}>
@@ -103,7 +116,7 @@ const ContactModal = () => {
               {contact.address && (
                 <Box sx={{ mb: 2 }}>
                   <Typography variant="subtitle2" color="text.secondary">Address</Typography>
-                  <Typography>{contact.address}</Typography>
+                  <Typography sx={{ whiteSpace: 'pre-wrap' }}>{contact.address}</Typography>
                 </Box>
               )}
             </Box>
@@ -115,11 +128,12 @@ const ContactModal = () => {
             <Button
               onClick={() => setIsEditing(true)}
               variant="contained"
-              color="primary"
               startIcon={<EditIcon />}
               sx={{
-                backgroundColor: '#1e88e5',
-                '&:hover': { backgroundColor: '#1565c0' },
+                backgroundColor: '#22C55E',
+                color: '#ffffff',
+                fontWeight: 'bold',
+                '&:hover': { backgroundColor: '#16a34a' },
               }}
             >
               Edit
@@ -144,6 +158,7 @@ const ContactModal = () => {
           </DialogActions>
         )}
       </Dialog>
+
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={isDeleting} onClose={() => setIsDeleting(false)}>

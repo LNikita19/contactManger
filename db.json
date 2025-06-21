@@ -49,12 +49,12 @@
       "favourite": true
     },
     {
-      "id": "8",
       "name": "Jessica Martinez",
       "email": "jessica@example.com",
-      "phone": "890-123-4567",
+      "phone": "8901234567",
       "address": "753 Walnut Way, San Diego, CA",
-      "favourite": false
+      "favourite": true,
+      "id": "8"
     },
     {
       "id": "9",
@@ -77,7 +77,7 @@
       "email": "shyama@gmail.com",
       "phone": "9876545678",
       "address": "",
-      "favourite": false,
+      "favourite": true,
       "id": "d44a"
     },
     {

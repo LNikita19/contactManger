@@ -3,7 +3,7 @@
 npx create react app used material ui tanstact and zustand for store managment.
 
  //Master Branch code is available 
- 
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -72,3 +72,6 @@ npm run start
 ### Managing Favorites
 - Click the heart icon on any contact card or in the detail modal
 - Use the "Show Favourites Only" toggle to filter favorites
+
+
+## Additionaly i have added loght dark mode in UI

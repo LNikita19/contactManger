@@ -1,16 +1,14 @@
-// src/components/SearchBar.jsx
 import { useState, useEffect } from 'react';
-import { TextField, Checkbox, FormControlLabel, Box } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { TextField, Box, IconButton, Typography } from '@mui/material';
 import useStore from '../store/useStore';
 import useDebounce from '../hooks/useDebounce';
+import StarIcon from '@mui/icons-material/Star';
 
 const SearchBar = () => {
   const { searchQuery, setSearchQuery, showFavoritesOnly, toggleShowFavoritesOnly } = useStore();
   const [inputValue, setInputValue] = useState(searchQuery);
-  const debouncedSearchTerm = useDebounce(inputValue, 500); // 500ms delay
+  const debouncedSearchTerm = useDebounce(inputValue, 500);
 
-  // Update store when debounced value changes
   useEffect(() => {
     setSearchQuery(debouncedSearchTerm);
   }, [debouncedSearchTerm, setSearchQuery]);
@@ -20,30 +18,52 @@ const SearchBar = () => {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        gap: 2,
+        gap: 1,
         width: '100%',
       }}
     >
+      {/* White background search bar with border */}
       <TextField
         variant="outlined"
-        placeholder="Search contact"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
+        placeholder="Search Contact"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
         size="small"
-        sx={{ flex: 1 }} // share space with checkbox
+        fullWidth
+        sx={{
+          backgroundColor: '#ffffff',
+          borderRadius: 2,
+          input: { color: '#1e293b' },
+        }}
       />
 
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={showFavoritesOnly}
-            onChange={toggleShowFavoritesOnly}
-            color="primary"
-          />
-        }
-        label="Show Favourites"
-        sx={{ whiteSpace: 'nowrap', mb: 0 }}
-      />
+      {/* Yellow star toggle button */}
+      <IconButton
+        onClick={toggleShowFavoritesOnly}
+        sx={{
+          px: 2,
+          py: 1,
+          backgroundColor: '#ffffff',
+          borderRadius: 2,
+          border: '2px solid white',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 0.5,
+        }}
+      >
+        <StarIcon sx={{ color: '#facc15' }} />
+        <Typography
+          variant="body2"
+          sx={{
+            fontWeight: 600,
+            color: '#1e293b',
+            fontSize: '0.75rem',
+            textTransform: 'none',
+          }}
+        >
+          Show Favourites
+        </Typography>
+      </IconButton>
     </Box>
   );
 };

@@ -1,4 +1,3 @@
-// src/hooks/useContacts.js
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
     getContacts,

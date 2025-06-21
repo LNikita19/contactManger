@@ -57,27 +57,16 @@ const ContactForm = ({ defaultValues, onSubmit, onCancel, isSubmitting }) => {
                         helperText={errors.phone?.message}
                     />
                 </Grid>
-
-
-                <Grid item xs={12}>
+                 <Grid item xs={12}>
                     <TextField
                         {...register('address')}
                         label="Address"
-                        multiline
-                        minRows={1}
                         fullWidth
-                        sx={{
-                            '& .MuiInputBase-root': {
-                                minHeight: '56px',
-                                alignItems: 'flex-start',  // Align text to top
-                            },
-                            '& textarea': {
-                                paddingTop: '16.5px',
-                                paddingBottom: '16.5px',
-                            }
-                        }}
+                        error={!!errors.address}
+                        helperText={errors.address?.message}
                     />
                 </Grid>
+
                 <Grid item xs={12}>
                     <FormControlLabel
                         control={<Checkbox {...register('favourite')} />}
@@ -94,6 +83,14 @@ const ContactForm = ({ defaultValues, onSubmit, onCancel, isSubmitting }) => {
                         variant="contained"
                         disabled={isSubmitting}
                         startIcon={isSubmitting ? <CircularProgress size={20} /> : null}
+                        sx={{
+                            backgroundColor: '#22C55E',
+                            color: '#ffffff',
+                            fontWeight: 'bold',
+                            '&:hover': {
+                                backgroundColor: '#16a34a',
+                            },
+                        }}
                     >
                         {isSubmitting ? 'Saving...' : 'Save'}
                     </Button>
