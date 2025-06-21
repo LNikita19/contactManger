@@ -62,9 +62,13 @@ function AppContent() {
   // ✅ Add this log right after data is confirmed available
   console.log("Received contacts:", data.contacts.length, "Total:", data.total, "Current page:", page);
 
-  const filteredContacts = showFavoritesOnly
-    ? data?.contacts?.filter(contact => contact.favourite)
-    : data?.contacts || [];
+  // Apply search and favorites filters
+  const filteredContacts = (data?.contacts || []).filter((contact) => {
+    const matchesSearch = contact.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFavorite = !showFavoritesOnly || contact.favourite;
+    return matchesSearch && matchesFavorite;
+  });
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

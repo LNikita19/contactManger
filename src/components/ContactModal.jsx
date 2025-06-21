@@ -15,6 +15,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import useStore from '../store/useStore';
 import { useContacts, useCreateContact, useUpdateContact, useDeleteContact } from '../hooks/useContacts';
 import ContactForm from './ContactForm';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const ContactModal = () => {
   const { selectedContactId, setSelectedContactId } = useStore();
@@ -114,9 +116,10 @@ const ContactModal = () => {
               onClick={() => setIsEditing(true)}
               variant="contained"
               color="primary"
+              startIcon={<EditIcon />}
               sx={{
                 backgroundColor: '#1e88e5',
-                '&:hover': { backgroundColor: '#1565c0' }
+                '&:hover': { backgroundColor: '#1565c0' },
               }}
             >
               Edit
@@ -125,6 +128,7 @@ const ContactModal = () => {
               onClick={() => setIsDeleting(true)}
               variant="outlined"
               color="error"
+              startIcon={<DeleteIcon />}
               sx={{
                 borderColor: '#f44336',
                 color: '#f44336',
@@ -132,7 +136,7 @@ const ContactModal = () => {
                   backgroundColor: '#ffe5e5',
                   borderColor: '#d32f2f',
                   color: '#d32f2f',
-                }
+                },
               }}
             >
               Delete
